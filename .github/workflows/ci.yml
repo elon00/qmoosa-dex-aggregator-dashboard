@@ -1,0 +1,71 @@
+name: DEX Aggregator Dashboard Reality CI Gate
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  reality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dashboard repository
+        uses: actions/checkout@v4
+        with:
+          path: qmoosa-dex-aggregator-dashboard
+
+      - name: Checkout protocol repository
+        uses: actions/checkout@v4
+        with:
+          repository: elon00/qmoosa-dex-aggregator-protocol
+          path: qmoosa-dex-aggregator-protocol
+
+      - name: Checkout engine repository
+        uses: actions/checkout@v4
+        with:
+          repository: elon00/qmoosa-dex-aggregator-engine
+          path: qmoosa-dex-aggregator-engine
+
+      - name: Checkout sdk repository
+        uses: actions/checkout@v4
+        with:
+          repository: elon00/qmoosa-dex-aggregator-sdk
+          path: qmoosa-dex-aggregator-sdk
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: qmoosa-dex-aggregator-dashboard/package.json
+
+      - name: Build protocol dependency
+        run: |
+          cd qmoosa-dex-aggregator-protocol
+          npm install
+          npm run build
+
+      - name: Build engine dependency
+        run: |
+          cd qmoosa-dex-aggregator-engine
+          npm install
+          npm run build
+
+      - name: Build SDK dependency
+        run: |
+          cd qmoosa-dex-aggregator-sdk
+          npm install
+          npm run build
+
+      - name: Install dashboard dependencies
+        working-directory: qmoosa-dex-aggregator-dashboard
+        run: npm install
+
+      - name: Build and test dashboard
+        working-directory: qmoosa-dex-aggregator-dashboard
+        run: npm test
+
+      - name: Static lint
+        working-directory: qmoosa-dex-aggregator-dashboard
+        run: npm run lint

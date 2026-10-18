@@ -1,0 +1,32 @@
+{
+  "name": "@qmoosa/dex-aggregator-dashboard",
+  "version": "1.0.0",
+  "description": "DEX Aggregator Dashboard — Web4 Trading Console, Route Visualizer & Liquidity Depth Map",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && node --test tests/dashboard.test.mjs",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@qmoosa/dex-aggregator-protocol": "file:../qmoosa-dex-aggregator-protocol",
+    "@qmoosa/dex-aggregator-engine": "file:../qmoosa-dex-aggregator-engine",
+    "@qmoosa/dex-aggregator-sdk": "file:../qmoosa-dex-aggregator-sdk"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  },
+  "keywords": [
+    "qmoosa",
+    "dex-aggregator",
+    "dashboard",
+    "web4",
+    "route-visualizer",
+    "trading-console"
+  ],
+  "author": "elon00",
+  "license": "MIT"
+}
